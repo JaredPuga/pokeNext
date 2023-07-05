@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { GetStaticPaths, GetStaticProps } from "next";
 import Image from "next/image";
+import confetti from "canvas-confetti";
 import { Pokemon } from "@/interfaces";
 import { Layout } from "@/components/layouts";
 import { localFavorites } from "@/utils";
@@ -17,6 +18,19 @@ export default function PokemonPage({pokemon}:Props) {
   const onToggleFavorite = () => {
     localFavorites.toggleFavorites(pokemon.id)
     setIsInFavorites(!isInFavorites)
+
+    if (isInFavorites) return;
+
+    confetti({
+      zIndex: 9999,
+      particleCount: 100,
+      spread: 160,
+      angle: -100,
+      origin: {
+        x: 1,
+        y: 0,
+      }
+    })
   }
     
   return (
