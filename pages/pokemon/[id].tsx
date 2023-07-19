@@ -4,7 +4,7 @@ import Image from "next/image";
 import confetti from "canvas-confetti";
 import { Pokemon } from "@/interfaces";
 import { Layout } from "@/components/layouts";
-import { localFavorites } from "@/utils";
+import { getPokemonInfo, localFavorites } from "@/utils";
 import { pokeApi } from "@/api";
 
 interface Props {
@@ -13,7 +13,12 @@ interface Props {
 
 export default function PokemonPage({pokemon}:Props) {
   
-  const [isInFavorites, setIsInFavorites] = useState(localFavorites.existPokemon(pokemon.id))
+  const [isInFavorites, setIsInFavorites] = useState(false)
+
+  useEffect(() => {
+    setIsInFavorites(localFavorites.existPokemon(pokemon.id))
+  }, [pokemon.id])
+  
 
   const onToggleFavorite = () => {
     localFavorites.toggleFavorites(pokemon.id)
@@ -86,11 +91,10 @@ export const getStaticPaths: GetStaticPaths = async () => { //Para rutas dinámi
 export const getStaticProps: GetStaticProps = async ({params}) => {
 
   const { id } = params as {id: string}
-  const { data } = await pokeApi.get<Pokemon>(`/pokemon/${id}`)
 
   return {
     props: {
-      pokemon: data,
+      pokemon: await getPokemonInfo(id),
     },
   }
 }
