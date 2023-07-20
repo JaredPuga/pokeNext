@@ -15,6 +15,9 @@ export const Layout = ({children, title, pokemon}:layoutProps) => {
             <meta name="author" content="Jared Puga"></meta>
             <meta name="description" content={`Información sobre el pokemon ${pokemon}`}></meta>
             <meta name="keywords" content="pokemon, pokedex"></meta>
+            <meta property="og:title" content={`Información sobre ${pokemon}`} />
+            <meta property="og:description" content={`Esta es la página sobre ${pokemon}`} />
+            <meta property="og:image" content="" />
         </Head>
 
         <NavBar />
